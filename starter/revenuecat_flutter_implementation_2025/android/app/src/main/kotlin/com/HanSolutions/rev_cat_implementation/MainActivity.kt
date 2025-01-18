@@ -1,4 +1,4 @@
-package com.example.revenuecat_flutter_implementation_2025
+package com.HanSolutions.rev_cat_implementation
 
 import io.flutter.embedding.android.FlutterActivity
 

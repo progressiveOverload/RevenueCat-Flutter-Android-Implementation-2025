@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   purchases_flutter: ^8.4.1
   purchases_ui_flutter: ^8.4.1
+  change_app_package_name: ^1.4.0
 
 dev_dependencies:
   flutter_test:
