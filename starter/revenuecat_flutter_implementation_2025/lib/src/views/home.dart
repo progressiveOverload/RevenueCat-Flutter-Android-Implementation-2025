@@ -21,31 +21,51 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   // ignore: unused_field
   bool _isLoading = false;
-  bool isPro = false;
+  bool _isPro = false;
   int _counter = 0;
 
   void _incrementCounter() {
     setState(() {
-      _counter++;
+      if (_isPro) {
+        _counter += 5;
+      } else {
+        _counter += 1;
+      }
     });
   }
 
   @override
   void initState() {
     initPlatformState();
+    checkSubscriptionStatus();
+    setupSubscriptionListener();
     super.initState();
   }
 
-  Future<void> checkProStatus() async {
+  Future<void> checkSubscriptionStatus() async {
     try {
       CustomerInfo customerInfo = await Purchases.getCustomerInfo();
-      setState(() {
-        isPro = customerInfo.entitlements.all[entitlementID]?.isActive ?? false;
-      });
-    } catch (e) {
-      // ignore: avoid_print
-      print('Failed to check pro status: $e');
+      final isPremium = customerInfo.entitlements.active.isNotEmpty;
+
+      if (mounted) {
+        setState(() {
+          _isPro = isPremium;
+        });
+      }
+    } on PlatformException catch (e) {
+      debugPrint('Error fetching subscription status: ${e.message}');
     }
+  }
+
+  void setupSubscriptionListener() {
+    Purchases.addCustomerInfoUpdateListener((customerInfo) {
+      final isPremium = customerInfo.entitlements.active.isNotEmpty;
+      if (mounted) {
+        setState(() {
+          _isPro = isPremium;
+        });
+      }
+    });
   }
 
   Future<void> initPlatformState() async {
@@ -121,8 +141,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: isPro ? Colors.green : Colors.blue,
-        title: Text(isPro ? "You're Pro" : "Not Pro"),
+        backgroundColor: _isPro ? Colors.green : Colors.blue,
+        title: Text(_isPro ? "You're Pro" : "Not Pro"),
       ),
       body: Center(
         child: Column(
@@ -138,12 +158,12 @@ class _MyHomePageState extends State<MyHomePage> {
             Padding(
               padding: const EdgeInsets.only(bottom: 30.0),
               child: ElevatedButton(
-                onPressed: isPro
+                onPressed: _isPro
                     ? null
                     : () async {
                         perfomMagic();
                       },
-                child: Text(isPro ? "You're using pro version" : "Get PRO"),
+                child: Text(_isPro ? "You're using pro version" : "Get PRO"),
               ),
             ),
           ],
