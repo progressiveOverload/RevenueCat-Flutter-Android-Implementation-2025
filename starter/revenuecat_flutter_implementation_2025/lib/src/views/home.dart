@@ -19,6 +19,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  // ignore: unused_field
   bool _isLoading = false;
   bool isPro = false;
   int _counter = 0;
@@ -44,21 +45,8 @@ class _MyHomePageState extends State<MyHomePage> {
         isPro = customerInfo.entitlements.all[entitlementID]?.isActive ?? false;
       });
     } catch (e) {
+      // ignore: avoid_print
       print('Failed to check pro status: $e');
-    }
-  }
-
-  Future<void> _checkEntitlements() async {
-    try {
-      CustomerInfo customerInfo = await Purchases.getCustomerInfo();
-      EntitlementInfo? entitlement =
-          customerInfo.entitlements.all[entitlementID];
-      appData.entitlementIsActive = entitlement?.isActive ?? false;
-      setState(() {
-        isPro = appData.entitlementIsActive;
-      });
-    } catch (e) {
-      // Handle error if needed
     }
   }
 

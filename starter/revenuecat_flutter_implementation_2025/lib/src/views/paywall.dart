@@ -66,6 +66,7 @@ class PaywallState extends State<Paywall> {
                         if (!mounted) return;
 
                         // Return the subscription status to caller
+                        // ignore: use_build_context_synchronously
                         Navigator.pop(context, appData.entitlementIsActive);
                       },
                       title: Text(
