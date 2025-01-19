@@ -13,7 +13,6 @@ void main() async {
       apiKey: appleApiKey,
     );
   } else if (Platform.isAndroid) {
-    // Run the app passing --dart-define=AMAZON=true
     const useAmazon = bool.fromEnvironment("amazon");
     StoreConfig(
       store: useAmazon ? Store.amazon : Store.playStore,
@@ -29,7 +28,6 @@ void main() async {
 }
 
 Future<void> _configureSDK() async {
-  // Enable debug logs before calling `configure`.
   await Purchases.setLogLevel(LogLevel.debug);
 
   PurchasesConfiguration configuration;

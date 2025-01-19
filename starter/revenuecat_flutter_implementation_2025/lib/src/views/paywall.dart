@@ -39,7 +39,7 @@ class PaywallState extends State<Paywall> {
               child: SizedBox(
                 width: double.infinity,
                 child: Text(
-                  'MAGIC WEATHER PREMIUM',
+                  'PREMIUM',
                 ),
               ),
             ),
