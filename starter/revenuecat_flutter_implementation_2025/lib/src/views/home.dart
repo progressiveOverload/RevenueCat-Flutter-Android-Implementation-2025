@@ -34,8 +34,6 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     initPlatformState();
     super.initState();
-    // _checkEntitlements();
-    checkProStatus();
   }
 
   Future<void> checkProStatus() async {
