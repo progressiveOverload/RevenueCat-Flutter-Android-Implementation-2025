@@ -30,7 +30,7 @@ class PaywallState extends State<Paywall> {
                       BorderRadius.vertical(top: Radius.circular(25.0))),
               child: const Center(
                   child: Text(
-                '✨ Magic Weather Premium',
+                '✨ Pro Version',
               )),
             ),
             const Padding(
@@ -50,6 +50,7 @@ class PaywallState extends State<Paywall> {
                 return Card(
                   color: Colors.black,
                   child: ListTile(
+                      textColor: Colors.white,
                       onTap: () async {
                         try {
                           CustomerInfo customerInfo =
@@ -62,10 +63,10 @@ class PaywallState extends State<Paywall> {
                         } catch (e) {
                           print(e);
                         }
+                        if (!mounted) return;
 
-                        setState(() {});
-                        // ignore: use_build_context_synchronously
-                        Navigator.pop(context);
+                        // Return the subscription status to caller
+                        Navigator.pop(context, appData.entitlementIsActive);
                       },
                       title: Text(
                         myProductList[index].storeProduct.title,
